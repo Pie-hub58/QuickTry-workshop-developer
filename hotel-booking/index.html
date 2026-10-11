@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>จองที่พัก — หาที่พักที่ใช่ทั่วไทย</title>
+  <title>โรงเเรม — พักที่ไหนดี?</title>
 
   <!-- Tailwind CSS ผ่าน CDN — ไม่ต้อง build อะไรเลย -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -25,10 +25,10 @@
 <body class="bg-stone-50 text-stone-800">
   <header class="sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-stone-100">
     <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="index.html" class="text-2xl font-bold text-teal-600">จองที่พัก</a>
+      <a href="index.html" class="text-2xl font-bold text-teal-600">Pie Wichakan</a>
       <nav class="flex items-center gap-6 text-stone-600 font-medium">
         <a href="index.html" class="hover:text-teal-600">หน้าแรก</a>
-        <a href="about.html" class="hover:text-teal-600">เกี่ยวกับเรา</a>
+        <a href="./about.html" class="hover:text-teal-600">เกี่ยวกับเรา</a>
         <button class="bg-teal-600 text-white px-5 py-2 rounded-full hover:bg-teal-700 transition">เข้าสู่ระบบ</button>
       </nav>
     </div>
@@ -37,39 +37,48 @@
   <main>
     <section class="bg-gradient-to-br from-teal-600 to-cyan-600 text-white">
       <div class="max-w-6xl mx-auto px-6 py-16 md:py-24 text-center">
-        <h2 class="text-4xl md:text-5xl font-bold mb-3">หาที่พักที่ใช่สำหรับคุณ</h2>
-        <p class="text-white/90 text-lg mb-8">รวมโรงแรมและโฮมสเตย์ทั่วไทย จองง่าย ราคาดี</p>
-        <div class="bg-white rounded-2xl shadow-lg p-3 flex flex-col md:flex-row gap-3 max-w-3xl mx-auto text-left text-stone-700">
+        <h2 class="text-4xl md:text-5xl font-bold mb-3">หาที่พักสบายๆ</h2>
+        <p class="text-white/90 text-lg mb-8">ค้นหาโรงเเรมที่ใช่ สำหรับตัวเอง</p>
+        <form id="hotel-search-form" role="search" class="bg-white rounded-2xl shadow-lg p-3 flex flex-col md:flex-row gap-3 max-w-3xl mx-auto text-left text-stone-700">
           <div class="flex-1 px-3 py-2">
-            <label class="block text-xs text-stone-400">จุดหมาย</label>
-            <input type="text" placeholder="จะไปเที่ยวไหนดี?" class="w-full focus:outline-none" />
+            <label for="destination-input" class="block text-xs text-stone-400">จุดหมาย</label>
+            <input id="destination-input" type="search" placeholder="จะไปเที่ยวไหนดี?" class="w-full focus:outline-none" />
           </div>
           <div class="flex-1 px-3 py-2 border-t md:border-t-0 md:border-l border-stone-100">
             <label class="block text-xs text-stone-400">วันเข้าพัก</label>
             <input type="text" placeholder="เลือกวันที่" class="w-full focus:outline-none" />
           </div>
-          <button class="bg-teal-600 text-white font-semibold px-8 py-3 rounded-xl hover:bg-teal-700 transition">ค้นหา</button>
-        </div>
+          <button type="submit" class="bg-teal-600 text-white font-semibold px-8 py-3 rounded-xl hover:bg-teal-700 transition">ค้นหา</button>
+        </form>
       </div>
     </section>
     <div class="max-w-6xl mx-auto px-6">
       <section class="my-10">
         <article>
-          <h4>จองง่าย ไม่มีค่าใช้จ่ายแอบแฝง</h4>
-          <p>ราคาที่เห็น คือราคาที่จ่ายจริง ยกเลิกฟรีทุกที่พัก</p>
+          <h4 style="background-color: #0d9488; color: white; text-align: center; padding: 8px 12px; font-weight: bold; font-size: 24px;">จองง่าย จองฟรี จองไว</h4>
+          <p style="background-color: #0d9488; color: white; text-align: center; padding: 8px 12px;">ราคาจริงไม่จกตา ยกเลิกฟรีทุกที่พัก</p>
         </article>
       </section>
       <section class="my-10">
         <h3 class="text-lg font-semibold mb-4">เลือกเมือง</h3>
         <div id="filter-bar" class="flex flex-wrap gap-3">
-          <button data-city="ทั้งหมด"   class="filter-btn px-5 py-2 rounded-full border border-stone-200 bg-white font-medium hover:border-teal-500">ทั้งหมด</button>
-          <button data-city="กรุงเทพ"   class="filter-btn px-5 py-2 rounded-full border border-stone-200 bg-white font-medium hover:border-teal-500">กรุงเทพ</button>
-          <button data-city="เชียงใหม่" class="filter-btn px-5 py-2 rounded-full border border-stone-200 bg-white font-medium hover:border-teal-500">เชียงใหม่</button>
-          <button data-city="ภูเก็ต"    class="filter-btn px-5 py-2 rounded-full border border-stone-200 bg-white font-medium hover:border-teal-500">ภูเก็ต</button>
+          <button type="button" data-city="ทั้งหมด"   aria-pressed="false" class="filter-btn px-5 py-2 rounded-full border border-stone-200 bg-white font-medium hover:border-teal-500 cursor-pointer">ทั้งหมด</button>
+          <button type="button" data-city="กรุงเทพ"   aria-pressed="false" class="filter-btn px-5 py-2 rounded-full border border-stone-200 bg-white font-medium hover:border-teal-500 cursor-pointer">กรุงเทพ</button>
+          <button type="button" data-city="เชียงใหม่" aria-pressed="false" class="filter-btn px-5 py-2 rounded-full border border-stone-200 bg-white font-medium hover:border-teal-500 cursor-pointer">เชียงใหม่</button>
+          <button type="button" data-city="ภูเก็ต"    aria-pressed="false" class="filter-btn px-5 py-2 rounded-full border border-stone-200 bg-white font-medium hover:border-teal-500 cursor-pointer">ภูเก็ต</button>
         </div>
       </section>
-      <section class="mb-20">
-        <h3 class="text-2xl font-bold mb-2">ที่พักแนะนำ</h3>
+      <section id="hotel-results" class="mb-20">
+        <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h3 class="text-2xl font-bold">ที่พักแนะนำ</h3>
+          <div class="flex items-center gap-3">
+            <label for="sort-select" class="shrink-0 text-sm font-medium text-stone-600">เรียงตาม</label>
+            <select id="sort-select" class="w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-700 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100">
+              <option value="price-asc">ราคาต่ำไปสูง</option>
+              <option value="rating-desc">เรตติ้งดาวมากไปน้อย</option>
+            </select>
+          </div>
+        </div>
         <p id="result-count" class="text-stone-500 text-sm mb-4">พบ 0 ที่พัก</p>
         <div id="hotel-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
       </section>

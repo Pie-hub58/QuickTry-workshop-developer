@@ -1,14 +1,18 @@
 let allHotels = [];
+let selectedCity = 'ทั้งหมด';
+let selectedDestination = '';
+let selectedSort = 'price-asc';
 
 async function loadHotels() {
   const res = await fetch('hotels.json');
   allHotels = await res.json();
-  renderHotels(allHotels);
+  filterHotels(selectedCity);
 }
 
 function renderHotels(list) {
   const grid = document.getElementById('hotel-grid');
   grid.innerHTML = list.map(cardHTML).join('');
+  document.getElementById('result-count').textContent = `พบ ${list.length} ที่พัก`;
 }
 
 // แปลงคะแนนเป็นดาว เช่น 4 → ★★★★☆
@@ -64,22 +68,53 @@ function cardHTML(hotel) {
 }
 
 function filterHotels(city) {
-  // TODO
+  selectedCity = city;
+  const hotels = (city === 'ทั้งหมด'
+    ? allHotels
+    : allHotels.filter((hotel) => hotel.city === city))
+    .filter((hotel) => {
+      const destination = selectedDestination.toLocaleLowerCase();
+      return !destination
+        || hotel.city.toLocaleLowerCase().includes(destination)
+        || hotel.name.toLocaleLowerCase().includes(destination);
+    })
+    .slice()
+    .sort((first, second) => {
+      if (selectedSort === 'rating-desc') {
+        return second.rating - first.rating || first.price - second.price;
+      }
+      return first.price - second.price || second.rating - first.rating;
+    });
+
+  renderHotels(hotels);
 }
 
-//  ต่อปุ่มกรองให้เรียก filterHotels + ไฮไลต์ปุ่มที่เลือกอยู่
-document.querySelectorAll('.filter-btn').forEach((btn) => {
-  btn.onclick = () => {
-    // คืนทุกปุ่มให้เป็นสีขาว (ปุ่มปกติ)
-    document.querySelectorAll('.filter-btn').forEach((b) => {
-      b.classList.remove('bg-teal-600', 'text-white', 'border-teal-600');
-      b.classList.add('bg-white');
-    });
-    // ทำปุ่มที่กดให้เป็นสีเขียว (ปุ่มที่เลือกอยู่)
-    btn.classList.remove('bg-white');
-    btn.classList.add('bg-teal-600', 'text-white', 'border-teal-600');
-    filterHotels(btn.dataset.city);
-  };
+document.getElementById('hotel-search-form').addEventListener('submit', (event) => {
+  event.preventDefault();
+  selectedDestination = document.getElementById('destination-input').value.trim();
+  filterHotels(selectedCity);
+  document.getElementById('hotel-results').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('sort-select').addEventListener('change', (event) => {
+  selectedSort = event.target.value;
+  filterHotels(selectedCity);
+});
+
+document.getElementById('filter-bar').addEventListener('click', (event) => {
+  const button = event.target.closest('.filter-btn');
+  if (!button) return;
+
+  document.querySelectorAll('.filter-btn').forEach((btn) => {
+    btn.classList.remove('bg-teal-600', 'text-white', 'border-teal-600');
+    btn.classList.add('bg-white');
+    btn.setAttribute('aria-pressed', 'false');
+  });
+
+  button.classList.remove('bg-white');
+  button.classList.add('bg-teal-600', 'text-white', 'border-teal-600');
+  button.setAttribute('aria-pressed', 'true');
+  filterHotels(button.dataset.city);
 });
 
 loadHotels();
